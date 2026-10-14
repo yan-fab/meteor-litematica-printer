@@ -33,7 +33,6 @@ import net.minecraft.core.Direction;
 import net.minecraft.core.Direction.Axis;
 import net.minecraft.core.Vec3i;
 import net.minecraft.network.protocol.game.ServerboundSetCreativeModeSlotPacket;
-import net.minecraft.util.Tuple;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -197,10 +196,19 @@ public class Printer extends Module {
 	);
 
 
+    private static class FadeBlock {
+        private int a;
+        private final BlockPos b;
+        public FadeBlock(int a, BlockPos b) { this.a = a; this.b = b; }
+        public int getA() { return a; }
+        public void setA(int a) { this.a = a; }
+        public BlockPos getB() { return b; }
+    }
+
     private int timer;
     private int usedSlot = -1;
     private final List<BlockPos> toSort = new ArrayList<>();
-    private final List<Tuple<Integer, BlockPos>> placed_fade = new ArrayList<>();
+    private final List<FadeBlock> placed_fade = new ArrayList<>();
 
 
 	// TODO: Add an option for smooth rotation. Make it look legit.
@@ -327,7 +335,7 @@ public class Printer extends Module {
 						timer = 0;
 						placed++;
 						if (renderBlocks.get()) {
-							placed_fade.add(new Tuple<>(fadeTime.get(), new BlockPos(pos)));
+							placed_fade.add(new FadeBlock(fadeTime.get(), new BlockPos(pos)));
 						}
 						if (placed >= bpt.get()) {
 							return;

@@ -1,5 +1,5 @@
 plugins {
-    id 'fabric-loom' version "${loom_version}"
+    id 'net.fabricmc.fabric-loom' version "${loom_version}"
 }
 
 
@@ -11,7 +11,9 @@ base {
 }
 
 java {
-    sourceCompatibility = targetCompatibility = JavaVersion.VERSION_25
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(25)
+    }
 }
 
 repositories {
@@ -25,11 +27,10 @@ repositories {
 dependencies {
     // Minecraft
     minecraft "com.mojang:minecraft:${project.minecraft_version}"
-    mappings loom.officialMojangMappings()
-    modImplementation "net.fabricmc:fabric-loader:${project.loader_version}"
+    implementation "net.fabricmc:fabric-loader:${project.loader_version}"
 
     // Meteor
-    implementation "meteordevelopment:meteor-client:26.1.2-SNAPSHOT"
+    implementation "meteordevelopment:meteor-client:26.2-SNAPSHOT"
 
     // Litematica TODO: make it not error on compile?
     implementation fileTree(dir: 'libs', include: '*.jar')
